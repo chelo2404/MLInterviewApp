@@ -21,11 +21,15 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // getResultsForKeyword(keyword: self.textFromSearchView)
     }
     
-    // MARK - Private methods
+    // MARK: Private methods
     
+    /**
+     Performs a GET request to obtain search results based in the keyword introduced by the user.
+     
+     - Parameter keyword: Search word entered by the user in the search bar.
+    */
     func getResultsForKeyword(keyword: String) {
         
         let manager = AFHTTPSessionManager()
@@ -41,20 +45,17 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    // MARK - SearchBar methods
+    // MARK: UISearchBar Delegate methods
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text {
             let search = text.trimmingCharacters(in: .whitespaces)
             
-            // self.searchText = search
-            
-            // self.performSegue(withIdentifier: "showResults", sender: nil)
             getResultsForKeyword(keyword: search)
         }
     }
     
-    // MARK - UITableViewDataSource methods
+    // MARK: UITableViewDataSource Delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.searchResults.count
@@ -70,7 +71,7 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let price = (item["price"] as? NSNumber)!
         dataCell.priceLabel.text = String(format: "%.2f", price.doubleValue)
         
-        dataCell.imageView?.sd_setImage(with: URL(string: item["thumbnail"] as! String), placeholderImage: nil, options: SDWebImageOptions.continueInBackground, progress: nil, completed: { (image, error, imageCacheType, url) in
+        dataCell.imageView?.sd_setImage(with: URL(string: item["thumbnail"] as! String), placeholderImage: UIImage(named: "loading"), options: SDWebImageOptions.continueInBackground, progress: nil, completed: { (image, error, imageCacheType, url) in
             dataCell.setNeedsLayout()
         })
         
@@ -89,7 +90,7 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.performSegue(withIdentifier: "showDetails", sender: self)
     }
     
-    // MARK - Navigation methods
+    // MARK: View Controller Navigation methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let productDetailViewController = segue.destination as! ProductDetailViewController

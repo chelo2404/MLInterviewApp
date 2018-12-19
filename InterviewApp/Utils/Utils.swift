@@ -12,15 +12,16 @@ class Utils: NSObject {
 
     class func convertDateFormatFor(value: String, from: String, to: String) -> String {
         let dateFormatter = DateFormatter()
-        // initially set the format based on your datepicker date / server String
-        dateFormatter.dateFormat = from// "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        // Initially set the format based on the results date
+        dateFormatter.dateFormat = from
         
-        // convert your string to date
+        // Convert your string to date
         let stopTime = dateFormatter.date(from: value)
-        //then again set the date format whhich type of output you need
-        dateFormatter.dateFormat = to// "EEE, MMM d, ''yy"
-        // again convert your date to string
+        // Then again set the date format according to the type of output you need
+        dateFormatter.dateFormat = to
+        // Again convert your date to string
         let dateAsString = dateFormatter.string(from: stopTime!)
+        
         return dateAsString
     }
 }

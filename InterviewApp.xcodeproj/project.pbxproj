@@ -10,7 +10,6 @@
 		772918FAEF21DAC2DD785CE5 /* Pods_InterviewAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB136318161D459CC234318 /* Pods_InterviewAppTests.framework */; };
 		7D0DE56125A752ED838FEC55 /* Pods_InterviewApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D89A95DC5ADDEE1E7887CB /* Pods_InterviewApp.framework */; };
 		9200715621C2000C00A7AC48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9200715521C2000C00A7AC48 /* AppDelegate.swift */; };
-		9200715821C2000C00A7AC48 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9200715721C2000C00A7AC48 /* SearchViewController.swift */; };
 		9200715B21C2000C00A7AC48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9200715921C2000C00A7AC48 /* Main.storyboard */; };
 		9200715D21C2000F00A7AC48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9200715C21C2000F00A7AC48 /* Assets.xcassets */; };
 		9200716021C2000F00A7AC48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9200715E21C2000F00A7AC48 /* LaunchScreen.storyboard */; };
@@ -48,7 +47,6 @@
 		6964FB9E21C3227D08FBACEA /* Pods-InterviewAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InterviewAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InterviewAppTests/Pods-InterviewAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9200715221C2000C00A7AC48 /* InterviewApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InterviewApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9200715521C2000C00A7AC48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9200715721C2000C00A7AC48 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9200715A21C2000C00A7AC48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9200715C21C2000F00A7AC48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9200715F21C2000F00A7AC48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -148,7 +146,6 @@
 			isa = PBXGroup;
 			children = (
 				9200715521C2000C00A7AC48 /* AppDelegate.swift */,
-				9200715721C2000C00A7AC48 /* SearchViewController.swift */,
 				9200715921C2000C00A7AC48 /* Main.storyboard */,
 				9200715C21C2000F00A7AC48 /* Assets.xcassets */,
 				9200715E21C2000F00A7AC48 /* LaunchScreen.storyboard */,
@@ -393,7 +390,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				925F7AB221C97325006ECCEE /* DetailsDTO.swift in Sources */,
-				9200715821C2000C00A7AC48 /* SearchViewController.swift in Sources */,
 				9241ED9721C88B63003CE801 /* ResultItemTableViewCell.swift in Sources */,
 				925F7AB421C992D3006ECCEE /* Utils.swift in Sources */,
 				9241ED9521C83D03003CE801 /* ProductDetailViewController.swift in Sources */,
