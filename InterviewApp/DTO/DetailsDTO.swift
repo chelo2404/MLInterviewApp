@@ -45,9 +45,12 @@ class DetailsDTO: NSObject {
         dto.stopTime = jsonObject[Utils.stopTimeKey] as! String
         
         // Get the rating from the reviews object and set the proper attribute
-        let reviews = jsonObject[Utils.reviewKey] as! Dictionary<String, Any>
-        let rating = reviews[Utils.ratingKey] as? NSNumber
-        dto.rating = rating?.doubleValue ?? 0.0
+        var rating = 0.0
+        if let reviews = jsonObject[Utils.reviewKey] as? Dictionary<String, Any> {
+            rating = reviews[Utils.ratingKey] as! Double
+        }
+        
+        dto.rating = rating
         
         // Set item status
         dto.condition = jsonObject[Utils.conditionKey] as! String
