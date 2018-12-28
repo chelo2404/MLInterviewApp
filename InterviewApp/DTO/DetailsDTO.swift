@@ -47,7 +47,7 @@ class DetailsDTO: NSObject {
         // Get the rating from the reviews object and set the proper attribute
         var rating = 0.0
         if let reviews = jsonObject[Utils.reviewKey] as? Dictionary<String, Any> {
-            rating = reviews[Utils.ratingKey] as! Double
+            rating = reviews[Utils.ratingKey] as? Double ?? 0.0
         }
         
         dto.rating = rating
