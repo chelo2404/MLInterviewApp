@@ -24,27 +24,33 @@ class DetailsDTO: NSObject {
      
      - Returns: A DetailsDTO object with the selected item info.
     */
-    class func DTOFromJSON(jsonObject: Dictionary<String, Any>) -> DetailsDTO{
+    class func DTOFromJSON(jsonObject: Dictionary<String, Any>) -> DetailsDTO {
         // Create an instance of this class
         let dto = DetailsDTO()
         
         // Set the title
-        dto.title = jsonObject["title"] as! String
+        dto.title = jsonObject[Utils.titleKey] as! String
         
         // Format and set the price
-        let price = (jsonObject["price"] as? NSNumber)!
+        let price = (jsonObject[Utils.priceKey] as? NSNumber)!
         dto.price = String(format: "%.2f", price.doubleValue)
         
-        dto.thumbnail = jsonObject["thumbnail"] as! String
-        dto.mercadoPago = jsonObject["accepts_mercadopago"] as! Bool
-        dto.stopTime = jsonObject["stop_time"] as! String
+        // Set preview image url
+        dto.thumbnail = jsonObject[Utils.thumbnailKey] as! String
+        
+        // Set payment method
+        dto.mercadoPago = jsonObject[Utils.mercadoPagoKey] as! Bool
+        
+        // Set end time for offer
+        dto.stopTime = jsonObject[Utils.stopTimeKey] as! String
         
         // Get the rating from the reviews object and set the proper attribute
-        let reviews = jsonObject["reviews"] as! Dictionary<String, Any>
-        let rating = reviews["rating_average"] as? NSNumber
+        let reviews = jsonObject[Utils.reviewKey] as! Dictionary<String, Any>
+        let rating = reviews[Utils.ratingKey] as? NSNumber
         dto.rating = rating?.doubleValue ?? 0.0
         
-        dto.condition = jsonObject["condition"] as! String
+        // Set item status
+        dto.condition = jsonObject[Utils.conditionKey] as! String
         
         return dto
     }

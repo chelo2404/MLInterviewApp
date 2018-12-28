@@ -14,10 +14,10 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var resultsTableView: UITableView!
     
-    var textFromSearchView = ""
-    var apiUrl = "https://api.mercadolibre.com/sites/MLA"
     var searchResults = [Dictionary<String, Any>]()
     var details = DetailsDTO()
+    
+    // MARK: View controller lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,23 +34,46 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let manager = AFHTTPSessionManager()
         
-        manager.get(apiUrl + "/search?q=" + keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!, parameters: nil, progress:nil, success: { (task: URLSessionDataTask!, responseObject: Any!) in
+        // Encode keyword for HTTP request
+        let encodedKeyword = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        
+        // Show loading indicator
+        let loadingView = Utils.displayLoadingIndicator(inView: self.resultsTableView)
+        
+        manager.get(Utils.baseAPIUrl + Utils.searchQuery + encodedKeyword, parameters: nil, progress:nil, success: { (task: URLSessionDataTask!, responseObject: Any!) in
+            // Get response as dictionary
             var response = responseObject as! [String : Any]
             
+            // Get the list of results from the response
             self.searchResults = response["results"] as! [Dictionary<String, Any>]
             
+            // Reload the table view information to show the results
             self.resultsTableView.reloadData()
+            
+            // Hide loading indicator
+            Utils.hideLoadingIndicator(liView: loadingView)
         }) { (operation, error) in
-            // Implement error handling
+            // Log the error for debugging purposes
+            NSLog("An error occurred while performing the search request. %@", error.localizedDescription)
+            
+            // Hide loading indicator
+            Utils.hideLoadingIndicator(liView: loadingView)
+            
+            // Show a friendly message to the user
+            Utils.showErrorAlertWith(message: "There was an error performing the requested search. Please try again in a moment.", inView: self)
         }
     }
+    
+    
     
     // MARK: UISearchBar Delegate methods
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text {
+            // If a keyword was entered, clean whitespaces
             let search = text.trimmingCharacters(in: .whitespaces)
             
+            // Perform the search with the keyword
             getResultsForKeyword(keyword: search)
         }
     }
@@ -66,12 +89,12 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let item = self.searchResults[indexPath.row]
         
-        dataCell.titleLabel.text = item["title"] as? String
+        dataCell.titleLabel.text = item[Utils.titleKey] as? String
         
-        let price = (item["price"] as? NSNumber)!
+        let price = (item[Utils.priceKey] as? NSNumber)!
         dataCell.priceLabel.text = String(format: "%.2f", price.doubleValue)
         
-        dataCell.imageView?.sd_setImage(with: URL(string: item["thumbnail"] as! String), placeholderImage: UIImage(named: "loading"), options: SDWebImageOptions.continueInBackground, progress: nil, completed: { (image, error, imageCacheType, url) in
+        dataCell.imageView?.sd_setImage(with: URL(string: item[Utils.thumbnailKey] as! String), placeholderImage: UIImage(named: "loading"), options: SDWebImageOptions.continueInBackground, progress: nil, completed: { (image, error, imageCacheType, url) in
             dataCell.setNeedsLayout()
         })
         
@@ -79,21 +102,27 @@ class ResultsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // Workaround to avoid showing wrong image on the table cells while scrolling
         cell.imageView?.sd_cancelCurrentImageLoad()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = self.searchResults[indexPath.row]
         
+        // Convert info from JSON to DTO
         self.details = DetailsDTO.DTOFromJSON(jsonObject: item)
         
-        self.performSegue(withIdentifier: "showDetails", sender: self)
+        // Perform navigation to details screen
+        self.performSegue(withIdentifier: Utils.showDetailsNavigation, sender: self)
     }
     
     // MARK: View Controller Navigation methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get destination view controller
         let productDetailViewController = segue.destination as! ProductDetailViewController
+        
+        // Set the info to be shown in the destination view
         productDetailViewController.details = self.details
     }
 }

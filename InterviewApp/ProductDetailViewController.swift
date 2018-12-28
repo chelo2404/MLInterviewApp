@@ -20,21 +20,38 @@ class ProductDetailViewController: UIViewController {
     
     var details : DetailsDTO = DetailsDTO()
 
+    // MARK: View controller lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.setDetailsInfo()
+    }
+    
+    // MARK: Private methods
+    
+    /**
+     Set item info on the view components
+    */
+    func setDetailsInfo() {
+        // Set header elements info
         self.titleLabel.text = self.details.title
         self.priceLabel.text = self.details.price
+        
+        // Set and load preview image
         self.thumbnail.sd_setImage(with: URL(string: (self.details.thumbnail)), completed: nil)
         
+        // Set payment method
         var mercadoPagoText = "No acepta"
         if ((self.details.mercadoPago)) {
             mercadoPagoText = "Acepta"
         }
         self.mercadoPagoLabel.text = mercadoPagoText
         
-        self.endDateLabel.text = Utils.convertDateFormatFor(value: self.details.stopTime, from: "yyyy-MM-dd'T'HH:mm:ss.SSSZ", to: "EEE, MMM d, ''yy")
-            
+        // Set offer end date info
+        self.endDateLabel.text = Utils.convertDateFormatFor(value: self.details.stopTime, from: Utils.fullDateFormat, to: Utils.dayMonthYearFormat)
+        
+        // Set rating and condition info
         self.ratingLabel.text = String(format: "%.1f", (self.details.rating))
         self.conditionLabel.text = self.details.condition.capitalized
     }
